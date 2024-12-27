@@ -22,12 +22,15 @@ jobs:
     name: Push Docker image to Docker Hub
     
     runs-on: ubuntu-latest
+    environment: playing
     
     permissions:
       packages: write
       contents: read
       attestations: write
       id-token: write
+    env:
+      IMAGE_NAME: caripafront/basic
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -57,6 +60,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
         with:
-          subject-name: ghcr.io/caripafront/playing_with_actions
+          subject-name: ${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
